@@ -46,7 +46,22 @@
                             </a>
                             <ul class="submenu @if(Route::currentRouteName() == 'create-company') active @endif">
                                 <li class="submenu-item  @if(Route::currentRouteName() == 'create-company') active @endif">
-                                    <a href="{{ route('create-company') }}">Create Profile</a>
+                                    <a href="{{ route('create-company') }}">Profile Setting</a>
+                                </li>
+
+                            </ul>
+                        </li>
+                        <li class="sidebar-item  has-sub @if(Route::currentRouteName() == 'create-funder') active @endif">
+                            <a href="#" class='sidebar-link'>
+                                <i class="bi bi-collection-fill"></i>
+                                <span>Funder</span>
+                            </a>
+                            <ul class="submenu @if(Route::currentRouteName() == 'create-funder' || Route::currentRouteName() == 'funder-list') active @endif">
+                                <li class="submenu-item  @if(Route::currentRouteName() == 'create-funder') active @endif">
+                                    <a href="{{ route('create-funder') }}">Add Funder</a>
+                                </li>
+                                <li class="submenu-item  @if(Route::currentRouteName() == 'funder-list') active @endif">
+                                    <a href="{{ route('funder-list') }}">Funder List</a>
                                 </li>
 
                             </ul>

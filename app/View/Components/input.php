@@ -15,13 +15,21 @@ class input extends Component
     public $label;
     public $type;
     public $value;
+    public $readonly;
+    public $class;
+    public $style;
+    public $options;
 
-    public function __construct($type,$name,$label,$value='')
+    public function __construct($type,$name,$label,$value='',$readonly='',$class='',$style='',$option='')
     {
         $this->type = $type;
         $this->name = $name;
         $this->label = $label;
         $this->value = $value;
+        $this->readonly = $readonly;
+        $this->class = $class;
+        $this->style = $style;
+        $this->options = explode('|', $option);
     }
 
     /**

@@ -12,18 +12,22 @@
                             <div class="card">
                                 <div class="card-header">
                                     <h4 class="card-title">Receipt Details
+                                    @if (session('status'))
+                                        <div class="text-center"><h3><span class="text-success">{{ session('status') }}</span></h3></div>
+                                    @endif
                                 </div>
                                 <div class="card-content">
                                     <div class="card-body">
-                                        <form class="form">
+                                        <form class="form" action="{{ route('CompanyReceipt') }}" method="POST">
+                                        @csrf
                                             <div class="row">
-                                                <x-input type="text" name="title" label="Received with thanks From" />
-                                                <x-input type="text" name="Amt_word" label="a sum of Rupees" />
+                                                <x-input type="text" name="receiver" label="Received with thanks From" />
+                                                <x-input type="text" name="amount" label="a sum of Rupees" />
                                                 <x-input type="text" name="towards" label="towards" />
-                                                <x-input type="text" name="vide" label="vide" />
-                                                <x-input type="file" name="date" label="Dated" />
-                                                <x-input type="number" name="fname" label="Receipt No" />
-                                                <x-input type="text" name="Date" label="Date" />
+                                                <x-input type="select" name="transfer_mode" label="vide" option="Cash|Bank"/>
+                                                <x-input type="date" name="receipt_date" label="Dated" />
+                                                <x-input type="text" name="receipt_no" label="Receipt No" value="{{ $receiptNumber }}" readonly='readOnly' />
+                                                <x-input type="date" name="date" label="Date" />
 
 
                                                 <div class="col-12 d-flex justify-content-start">
