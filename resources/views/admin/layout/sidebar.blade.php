@@ -26,12 +26,12 @@
                                 <i class="bi bi-stack"></i>
                                 <span>Receipt</span>
                             </a>
-                            <ul class="submenu @if(Route::currentRouteName() == 'create-receipt') active @endif">
+                            <ul class="submenu @if(Route::currentRouteName() == 'create-receipt' || Route::currentRouteName() == 'receipt-list') active @endif">
                                 <li class="submenu-item @if(Route::currentRouteName() == 'create-receipt') active @endif">
                                     <a href="{{ route('create-receipt') }}">Receipt Generator</a>
                                 </li>
-                                <li class="submenu-item ">
-                                    <a href="component-badge.html">Receipts List</a>
+                                <li class="submenu-item @if(Route::currentRouteName() == 'receipt-list') active @endif">
+                                    <a href="{{ route('receipt-list') }}">Receipts List</a>
                                 </li>
 
 

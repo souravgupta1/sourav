@@ -24,14 +24,18 @@ class CompanyController extends Controller
             $year = date('Y').'-'.(date('y')+1) ;
             $text = 'CA';
             $auto_receipt = "$text/$year/$num";
-            return view('admin.pages.create-receipt',['receiptNumber'=>$auto_receipt]);
+            return view('admin.pages.receipt.create-receipt',['receiptNumber'=>$auto_receipt]);
+    }
+    function ReceiptListView(){
+        $receipt = ReceiptModel::all();
+        return view('admin.pages.receipt.receipt-list',['receipt'=>$receipt]);
     }
     function FunderView(){
-         return view('admin.pages.create-funder');
+         return view('admin.pages.funder.create-funder');
     }
     function FunderListView(){
         $funder = FunderModel::all();
-        return view('admin.pages.funder-list',['funder'=>$funder]);
+        return view('admin.pages.funder.funder-list',['funder'=>$funder]);
     }
     function CompanyRegistration(Request $request){
         $company = CompanyModel::where('user_id',session('admin')->id)->first();

@@ -1,6 +1,6 @@
 @php
     $title ="Company | Funder";
-    $mainHeading = "Create Funder";
+    $mainHeading = "List Funder";
     $companyProfile = "active";
 
 @endphp
@@ -11,7 +11,7 @@
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-header">
-                                    <h4 class="card-title">Add Funder
+                                    <h4 class="card-title">Funder List
                                     @if (session('status'))
                                         <div class="text-center"><h3><span class="text-success">{{ session('status') }}</span></h3></div>
                                     @endif
@@ -34,7 +34,7 @@
                                             <tbody>
                                                @foreach ($funder as $item )
 
-                                               @endforeach
+
                                                 <tr>
                                                     <td class="text-bold-500">{{ $item->funder_type }}</td>
                                                     <td class="text-bold-500">{{ $item->funder_category }}</td>
@@ -43,6 +43,7 @@
                                                     <td class="text-bold-500">{{ $item->funder_address1 }}</td>
                                                     <td class="text-bold-500">{{ $item->funder_country }}</td>
                                                 </tr>
+                                                 @endforeach
                                             </tbody>
                                         </table>
                                     </div>

@@ -49,6 +49,7 @@ Route::controller(CompanyController::class)->prefix('/admin')->group(function(){
         Route::get('/create-receipt', 'ReceiptView')->name('create-receipt');
         Route::get('/create-funder', 'FunderView')->name('create-funder');
         Route::get('/create-funder-list', 'FunderListView')->name('funder-list');
+        Route::get('/create-receipt-list', 'ReceiptListView')->name('receipt-list');
      });
 });
 
