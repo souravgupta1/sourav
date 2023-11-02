@@ -17,7 +17,6 @@
                                     @endif
                                 </div>
                                 <div class="card-content">
-
                                     <!-- table bordered -->
                                     <div class="table-responsive">
                                         <table class="table table-bordered mb-0">
@@ -33,8 +32,6 @@
                                             </thead>
                                             <tbody>
                                                @foreach ($funder as $item )
-
-
                                                 <tr>
                                                     <td class="text-bold-500">{{ $item->funder_type }}</td>
                                                     <td class="text-bold-500">{{ $item->funder_category }}</td>

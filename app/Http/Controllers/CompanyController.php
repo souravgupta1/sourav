@@ -3,12 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\NumberToWordsController;
 use App\Models\CompanyModel;
 use App\Models\FunderModel;
 use App\Models\ReceiptModel;
 use Illuminate\Http\Request;
 use App\Mail\ComposeMail;
+use App\Models\ReceiptSettingModel;
 use Illuminate\Support\Facades\Mail;
+/** @var \Barryvdh\DomPDF\PDF $pdf */
+use PDF;
 
 class CompanyController extends Controller
 {
@@ -20,10 +24,12 @@ class CompanyController extends Controller
     }
     function ReceiptView(){
             $receiptCount = ReceiptModel::where('user_id', session('admin')->id)->count();
+            $setting = ReceiptSettingModel::first();
             $num = str_pad($receiptCount+1,3,0,STR_PAD_LEFT);
             $year = date('Y').'-'.(date('y')+1) ;
-            $text = 'CA';
-            $auto_receipt = "$text/$year/$num";
+            $pre = $setting->prefix;
+            $sub = $setting->suffix;
+            $auto_receipt = "$pre/$year/$sub/$num";
             return view('admin.pages.receipt.create-receipt',['receiptNumber'=>$auto_receipt]);
     }
     function ReceiptListView(){
@@ -32,6 +38,26 @@ class CompanyController extends Controller
     }
     function FunderView(){
          return view('admin.pages.funder.create-funder');
+    }
+    function ReceiptSettingView(){
+        $setting = ReceiptSettingModel::first();
+
+        return view('admin.pages.receipt.receipt-setting',['setting'=>$setting]);
+    }
+    function ReceiptSettingForm(Request $request){
+        $setting = ReceiptSettingModel::where('user_id',session('admin')->id)->first();
+        if(!$setting){
+            $setting = new ReceiptSettingModel();
+        }
+
+        $setting->user_id = session('admin')->id;
+        $setting->prefix = $request->prefix;
+        $setting->suffix = $request->suffix;
+        if($setting->save()){
+            return redirect()->route('receipt-setting')->with(['status'=>'success']);
+        }else{
+            return redirect()->route('receipt-setting')->with(['status'=>'something went wrong']);
+        }
     }
     function FunderListView(){
         $funder = FunderModel::all();
@@ -138,6 +164,15 @@ class CompanyController extends Controller
         Mail::to($request->email)->send(new ComposeMail($data));
 
         return true;
+    }
+
+    function PDF_Generator(int $format){
+        $amount = 65000;
+        $word = new NumberToWordsController();
+        $amtInWord = $word->convertNumber($amount);
+        $pdf = PDF::loadView("admin.pages.receipt.pdf-format-$format",['word'=>$amtInWord]);
+        return $pdf->stream('pdf.pdf');
+
     }
 
 }

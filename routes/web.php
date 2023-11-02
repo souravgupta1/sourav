@@ -50,6 +50,9 @@ Route::controller(CompanyController::class)->prefix('/admin')->group(function(){
         Route::get('/create-funder', 'FunderView')->name('create-funder');
         Route::get('/create-funder-list', 'FunderListView')->name('funder-list');
         Route::get('/create-receipt-list', 'ReceiptListView')->name('receipt-list');
+        Route::get('/create-receipt-setting', 'ReceiptSettingView')->name('receipt-setting');
+        Route::post('/receipt-setting', 'ReceiptSettingForm')->name('receipt-setting-form');
+        Route::get('PDF-preview/{format}','PDF_generator')->name('pdf-preivew');
      });
 });
 

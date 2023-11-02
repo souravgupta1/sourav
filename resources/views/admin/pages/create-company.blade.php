@@ -33,7 +33,7 @@
                                                 <x-input type="file" name="logo" label="Company Logo" />
                                                 <div class="col-md-3 col-12">
                                                 <div class="form-group"><br>
-                                                        <img src="{{ asset('storage/company/GotoLocation/logo/Ja5zbCAm9rKwjGwSiWtDyzycKzvwlPeyXa3HDMzW.png') }}" class="form-control" style="width: 50%;height: 37px;">
+                                                        <img src="{{ asset('storage/'.$company->logo) }}" class="form-control" style="width: 50%;height: 37px;">
                                                 </div>
                                             </div>
                                              <div class="card-header"><h4 class="card-title">Address</h4></div>

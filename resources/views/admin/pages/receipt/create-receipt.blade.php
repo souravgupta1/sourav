@@ -25,9 +25,8 @@
                                                 <x-input type="text" name="amount" label="a sum of Rupees" />
                                                 <x-input type="text" name="towards" label="towards" />
                                                 <x-input type="select" name="transfer_mode" label="vide" option="Cash|Bank"/>
-                                                <x-input type="date" name="receipt_date" label="Dated" />
+                                                <x-input type="date" name="receipt_date" label="Date" />
                                                 <x-input type="text" name="receipt_no" label="Receipt No" value="{{ $receiptNumber }}" readonly='readOnly' />
-                                                <x-input type="date" name="date" label="Date" />
 
 
                                                 <div class="col-12 d-flex justify-content-start">
