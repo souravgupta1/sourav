@@ -57,6 +57,18 @@
 
                             </ul>
                         </li>
+                        <li class="sidebar-item  has-sub @if($route == 'create-user') active @endif">
+                            <a href="#" class='sidebar-link'>
+                                <i class="bi bi-collection-fill"></i>
+                                <span>User</span>
+                            </a>
+                            <ul class="submenu @if($route == 'create-user') active @endif">
+                                <li class="submenu-item  @if($route == 'create-user') active @endif">
+                                    <a href="{{ route('create-user') }}">Add User</a>
+                                </li>
+
+                            </ul>
+                        </li>
                         <li class="sidebar-item  has-sub @if($route == 'create-funder') active @endif">
                             <a href="#" class='sidebar-link'>
                                 <i class="bi bi-collection-fill"></i>
@@ -83,12 +95,9 @@
                                 <i class="bi bi-envelope-fill"></i>
                                 <span>Mail</span>
                             </a>
-                            <ul class="submenu @if($route == 'compose-mail' || $route == 'mail-setting') active @endif">
-                                <li class="submenu-item @if($route == 'compose-mail') active @endif">
-                                    <a href="{{ route('compose-mail') }}"><i class="bi bi-pen-fill"></i> Compose</a>
-                                </li>
+                            <ul class="submenu @if( $route == 'mail-setting') active @endif">
                                 <li class="submenu-item @if($route == 'mail-setting') active @endif">
-                                    <a href="{{ route('mail-setting') }}"><i class="bi bi-gear-fill"></i> Mail Setting</a>
+                                    <a href="{{ route('mail-setting') }}"><i class="bi bi-pen-fill"></i> Compose</a>
                                 </li>
                             </ul>
                         </li>

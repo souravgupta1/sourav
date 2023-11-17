@@ -9,8 +9,13 @@ use App\Models\FunderModel;
 use App\Models\ReceiptModel;
 use Illuminate\Http\Request;
 use App\Mail\ComposeMail;
+use App\Models\AdminModel;
+use App\Models\MailSetting;
 use App\Models\ReceiptSettingModel;
 use Illuminate\Support\Facades\Mail;
+use NumberToWords\Legacy\Numbers\Words\Locale\Id;
+use Illuminate\Database\Eloquent\Model;
+
 /** @var \Barryvdh\DomPDF\PDF $pdf */
 use PDF;
 
@@ -25,12 +30,14 @@ class CompanyController extends Controller
     function ReceiptView(){
             $receiptCount = ReceiptModel::where('user_id', session('admin')->id)->count();
             $setting = ReceiptSettingModel::first();
-            $num = str_pad($receiptCount+1,3,0,STR_PAD_LEFT);
-            $year = date('Y').'-'.(date('y')+1) ;
+            $num = str_pad($setting->receipt_number+$receiptCount,$setting->number_format,0,STR_PAD_LEFT);
+            // $year = date('Y').'-'.(date('y')+1) ;
             $pre = $setting->prefix;
             $sub = $setting->suffix;
-            $auto_receipt = "$pre/$year/$sub/$num";
-            return view('admin.pages.receipt.create-receipt',['receiptNumber'=>$auto_receipt]);
+            $auto_receipt = "$pre$num$sub";
+            $format_no = $setting->receipt_format;
+            $funders = FunderModel::all();
+            return view('admin.pages.receipt.create-receipt',['receiptNumber'=>$auto_receipt,'format_no'=>$format_no,'funders'=>$funders]);
     }
     function ReceiptListView(){
         $receipt = ReceiptModel::all();
@@ -53,8 +60,12 @@ class CompanyController extends Controller
         $setting->user_id = session('admin')->id;
         $setting->prefix = $request->prefix;
         $setting->suffix = $request->suffix;
+        $setting->receipt_number = $request->number;
+        $setting->number_format =  preg_replace("/[^0-9]/", "", $request->number_format);
+        $format = explode('-',$request->receipt_format);
+        $setting->receipt_format =  $format[1];
         if($setting->save()){
-            return redirect()->route('receipt-setting')->with(['status'=>'success']);
+            return redirect()->route('receipt-setting')->with(['status'=>'Setting Updated']);
         }else{
             return redirect()->route('receipt-setting')->with(['status'=>'something went wrong']);
         }
@@ -102,26 +113,30 @@ class CompanyController extends Controller
         }
     }
     function CompanyReceipt(Request $request){
-        $recepit = ReceiptModel::where('user_id',session('admin')->id)->where('receipt_no', $request->receipt_no)->first();
-        if(!$recepit){
-            $receipt = new ReceiptModel();
-            $receipt->created_at = now();
-            $receipt->user_id = session('admin')->id;
-            $receipt->created_by = session('admin')->id;
-        }
-        $receipt->user_id = session('admin')->id;
-        $receipt->company_id = session('company')->id;
-        $receipt->receiver = $request->receiver;
+        $user_id = session('admin')->id;
+        $receipt = new ReceiptModel();
+        $receipt->created_at = now();
+        $receipt->created_by = $user_id;
+        $receipt->user_id = $user_id;
+        $receipt->company_id = $user_id;
+        $receipt->funder_id = $request->funder_id;
+        $receipt->format_no = $request->format_no;
+        $receipt->payment_for = $request->for;
         $receipt->amount = $request->amount;
         $receipt->towards = $request->towards;
         $receipt->transfer_mode = $request->transfer_mode;
         $receipt->receipt_date = $request->receipt_date;
         $receipt->receipt_no = $request->receipt_no;
-
-        $receipt->updated_at = now();
-        $receipt->update_by = session('admin')->id;
         if($receipt->save()){
-             return redirect()->route('create-receipt')->with(['status'=>'Receipt Generated']);
+            if($request->submit==="new"){
+                return redirect()->route('create-receipt')->with(['status'=>'Receipt Generated']);
+            }
+            if($request->submit==="exit"){
+                return redirect()->route('receipt-list')->with(['status'=>'Receipt Generated']);
+            }
+            if($request->submit==="send"){
+                return redirect()->route('mail-setting')->with(['status'=>'Receipt Generated','funder'=>$request->funder_id]);
+            }
         }else{
              return redirect()->route('create-receipt')->with(['status'=>'Something went wrong']);
         }
@@ -157,15 +172,20 @@ class CompanyController extends Controller
             return redirect()->route('create-funder')->with(['status'=>'Something went wrong']);
         }
     }
-    public function sendMail(Request $request){
-
-
+    function sendMail(Request $request){
         $data = array('subject'=>$request->subject,'from'=>$request->from,'to'=>$request->to,'cc'=>$request->cc,'body'=>$request->body);
-        Mail::to($request->email)->send(new ComposeMail($data));
+        $cc = explode(';',$request->cc);
+        Mail::to($request->to)->cc($cc)->bcc('soorugupta999@gmail.com')->send(new ComposeMail($data));
+        $mailSave = MailSetting::where('user_id',session('admin')->id)->first();
+        $mailSave->message = $request->body;
+        $mailSave->mail_from = $request->from;
+        $mailSave->mail_to = $request->to;
+        $mailSave->mail_cc = $request->cc;
+            if($mailSave->save()){
+                return redirect()->route('mail-setting')->with(['status'=>'Mail Sent!']);
+            }
 
-        return true;
     }
-
     function PDF_Generator(int $format){
         $amount = 65000;
         $word = new NumberToWordsController();
@@ -174,5 +194,25 @@ class CompanyController extends Controller
         return $pdf->stream('pdf.pdf');
 
     }
+    function getFunder(Request $request){
+    $funder = FunderModel::where('id', $request->id)->first();
 
+    if ($funder) {
+        return response()->json($funder);
+    } else {
+        // Handle the case where no record is found
+        return response()->json(['error' => 'Funder not found'], 404);
+    }
+    }
+    function MailPage(){
+        $funder = FunderModel::where('id', session('funder'))->first();
+        $admin = AdminModel::where('id', session('admin')->id)->first();
+
+        return view('admin.pages.mail.mail-setting')->with(compact('funder','admin'));
+    }
+    function deleteRow($id) {
+    if (ReceiptModel::where('id', $id)->delete()) {
+        return redirect()->route('receipt-list')->with(['status' => 'Entry Deleted']);
+    }
+}
 }

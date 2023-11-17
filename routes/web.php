@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,13 +28,8 @@ Route::controller(AuthController::class)->prefix('/admin')->group(function(){
     // after session or login
     Route::middleware(['guardAdmin'])->group(function(){
         Route::view('/dashboard', 'admin/pages/dashboard')->name('dashboard');
-
-
-        Route::get('sendMail','sendMail');
+        Route::get('sendMail','sendMail')->name('Mail-send');
         Route::view('/compose-mail','admin/pages/mail/create-mail')->name('compose-mail');
-        Route::view('/mail-setting','admin/pages/mail/mail-setting')->name('mail-setting');
-
-
 
     });
 
@@ -52,8 +48,20 @@ Route::controller(CompanyController::class)->prefix('/admin')->group(function(){
         Route::get('/create-receipt-list', 'ReceiptListView')->name('receipt-list');
         Route::get('/create-receipt-setting', 'ReceiptSettingView')->name('receipt-setting');
         Route::post('/receipt-setting', 'ReceiptSettingForm')->name('receipt-setting-form');
-        Route::get('PDF-preview/{format}','PDF_generator')->name('pdf-preivew');
+        Route::get('PDF-preview/{format}','PDF_generator')->name('pdf-preview');
+        Route::post('/get-funder','getFunder')->name('get-funder');
+        Route::get('/mail-setting','MailPage')->name('mail-setting');
+        Route::post('sendMail','sendMail')->name('Mail-send');
+        Route::get('receipt-delete/{id}','deleteRow')->name('receipt-delete');
+
      });
+});
+Route::controller(UserController::class)->prefix('/admin')->group(function(){
+    Route::middleware('guardAdmin')->group(function(){
+        Route::get('create-user','userFormView')->name('create-user');
+        Route::post('insertNewUser','createUser')->name('new-user');
+    });
+
 });
 
 Route::get('/logout',[AuthController::class,'logout'])->name('logout');

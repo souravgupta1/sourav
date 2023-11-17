@@ -29,6 +29,9 @@
                                                     <th>Mode</th>
                                                     <th>Date</th>
                                                     <th>Receipt No.</th>
+                                                    <th>PDF</th>
+                                                    <th>Delete</th>
+                                                    <th>Mail</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -42,6 +45,9 @@
                                                     <td class="text-bold-500">{{ $item->transfer_mode }}</td>
                                                     <td class="text-bold-500">{{ $item->receipt_date }}</td>
                                                     <td class="text-bold-500">{{ $item->receipt_no }}</td>
+                                                    <td class="text-bold-500"><a class="btn btn-warning" href="#">View PDF</a></td>
+                                                    <td class="text-bold-500"><a class="btn btn-danger" href="receipt-delete/{{ $item->id }}">Delete</a></td>
+                                                    <td class="text-bold-500"><a class="btn btn-success" href="#">Send Email</a></td>
                                                 </tr>
                                                  @endforeach
                                             </tbody>

@@ -19,8 +19,9 @@ class input extends Component
     public $class;
     public $style;
     public $options;
+    public $required;
 
-    public function __construct($type,$name,$label,$value='',$readonly='',$class='',$style='',$option='')
+    public function __construct($type,$name,$label,$value='',$readonly='',$class='',$style='',$option='',$required='')
     {
         $this->type = $type;
         $this->name = $name;
@@ -29,6 +30,7 @@ class input extends Component
         $this->readonly = $readonly;
         $this->class = $class;
         $this->style = $style;
+        $this->required = $required;
         $this->options = explode('|', $option);
     }
 

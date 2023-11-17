@@ -3,11 +3,12 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Content;
-use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Mail\Mailables\Envelope;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
 class ComposeMail extends Mailable
 {
@@ -16,9 +17,14 @@ class ComposeMail extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public $body;
+    public $sender;
+    public $sub;
+    public function __construct($data)
     {
-        //
+        $this->body = $data['body'];
+        $this->sender = $data['from'];
+        $this->sub = $data['subject'];
     }
 
     /**
@@ -27,7 +33,8 @@ class ComposeMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Compose Mail',
+            from : new Address('hatimkhan86@gmail.com',$this->sender),
+            subject: $this->sub,
         );
     }
 
@@ -37,7 +44,7 @@ class ComposeMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'view.name',
+            view: 'admin.pages.mail.mailbody',
         );
     }
 

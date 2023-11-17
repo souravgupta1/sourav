@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Str;
 use App\Mail\userMailVerification;
 use App\Models\CompanyModel;
+use App\Models\MailSetting;
 use Illuminate\Support\Facades\Mail;
 
 
@@ -50,13 +51,18 @@ class AuthController extends Controller
         $admin->email = $request->email;
         $admin->password = Hash::make($request->password);
         if($admin->save()){
-
-            if($this->sendMail($admin)){
-                return redirect()->route('login')->with('message','Verification is Pending Please check your Mail');
+            $lastAdminInserted  = AdminModel::latest()->first();
+            $mail = new MailSetting();
+            $mail->user_id = $lastAdminInserted->id;
+            if($mail->save()){
+                if($this->sendMail($admin)){
+                    return redirect()->route('login')->with('message','Verification is Pending Please check your Mail');
+                }else{
+                    return redirect()->route('register')->with('error','Mail Not Send');
+                }
             }else{
-                echo "mail not send";
+                 return redirect()->route('register')->with('error','Something went worng');
             }
-
         }else{
             return redirect()->route('register')->with('error','Something went worng');
         }
@@ -97,7 +103,7 @@ class AuthController extends Controller
 
         return true;
     }
-    
+
     function verifyUser($id){
         $user = AdminModel::find($id);
         $user->Is_verify =1;
