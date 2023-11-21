@@ -58,8 +58,10 @@
 </style>
     <div class="col-md-3 col-12">
         <div class="form-group">
-        <label for="Pages-column">{{ $label }}</label>
-            <div class="dropdown-checkbox button">
+        <label for="Pages-column">{{ $label }} @if (!empty($required)) <span class='text-danger'>*
+
+        </span> @endif</label>
+            <div class="dropdown-checkbox button" @error('pages') style="border: 1px solid red;border-radius: 4px;" @enderror>
                 <div class="  dropdown-checkbox-btn button-btn" class="selected-values" > None Selected <i class="fa fa-solid fa-sort-down"></i></div>
                     <div class="dropdown-checkbox-content" >
                         @foreach($options as $key => $option)

@@ -28,11 +28,11 @@
                     <form class="form" action="{{ route('new-user') }}" method="POST">
                     @csrf
                         <div class="row">
-                            <x-input type="text" name="uname" label="User Name" required />
-                            <x-input type="text" name="email" label="Email ID" required />
-                            <x-input type="text" name="password" label="Password" required />
-                            <x-input type="select" name="role" label='Role' option="Admin|User" required />
-                            <x-dropdown label="Access of Pages" name="pages"  option="{{ $PagesAll }}" />
+                            <x-input type="text" name="uname" label="User Name" required value="{{ old('uname') }}" />
+                            <x-input type="text" name="email" label="Email ID" required value="{{ old('email') }}" />
+                            <x-input type="text" name="password" label="Password" required  />
+                            <x-input type="select" name="role" label='Role' option="Admin|User" required value="{{ old('role') }}" />
+                            <x-dropdown label="Access of Pages" name="pages"  option="{{ $PagesAll }}" required/>
                             <div class="col-12 d-flex justify-content-start my-5">
                                 <button type="submit" class="btn btn-primary me-1 mb-1">Add User</button>
                             </div>

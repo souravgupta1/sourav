@@ -15,6 +15,8 @@
     <link rel="stylesheet" href="{{ asset('assets/vendors/bootstrap-icons/bootstrap-icons.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/app.css') }}">
     <link rel="shortcut icon" href="{{ asset('assets/images/favicon.svg" type="image/x-icon') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendors/sweetalert2/sweetalert2.min.css') }}">
+
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -41,7 +43,34 @@
     <script src="{{ asset('assets/js/main.js') }}"></script>
     <script src="{{ asset('assets/vendors/tinymce/tinymce.min.js') }}"></script>
     <script src="{{ asset('assets/vendors/tinymce/plugins/code/plugin.min.js') }}"></script>
+    {{-- <script src="{{ asset('assets/js/extensions/sweetalert2.js') }}"></script> --}}
+    <script src="{{ asset('assets/vendors/sweetalert2/sweetalert2.all.min.js') }}"></script>
+
     <script>
+        @if (session('success'))
+        document.addEventListener('DOMContentLoaded', (event) => {
+                    Swal.fire({
+                        icon: "success",
+                        title: "{{ session('success') }}"
+                    });
+                });
+
+        @elseif (session('error'))
+            document.addEventListener('DOMContentLoaded', (event) => {
+                    Swal.fire({
+                        icon: "error",
+                        title: "{{ session('error') }}"
+                    });
+                });
+        @elseif (session('warning'))
+            document.addEventListener('DOMContentLoaded', (event) => {
+                    Swal.fire({
+                        icon: "warning",
+                        title: "{{ session('warning') }}"
+                    });
+                });
+        @endif
+
         tinymce.init({ selector: '#default' });
         tinymce.init({ selector: '#dark', toolbar: 'undo redo styleselect bold italic alignleft aligncenter alignright bullist numlist outdent indent code', plugins: 'code' });
     </script>

@@ -4,7 +4,7 @@
     $companyProfile = "active";
     $funderOptions='';
  foreach ($funders as $funder ){
-    $funderOptions .= "$funder->id:$funder->funder_name|";
+    $funderOptions .= "$funder->id:$funder->funder_entity|";
 }
 @endphp
 @extends('admin.layout.master')
@@ -24,8 +24,11 @@
                                         <form class="form" action="{{ route('CompanyReceipt') }}" method="POST">
                                             @csrf
                                             <div class="row">
-                                                <x-input type="select" name="funder_id"  class="choices form-select" label="Received with thanks From" option="{{ $funderOptions }}" required/>
-
+                                                <x-input type="select" name="funder_id"  class="choices form-select"  label="Received with thanks From" option="{{ $funderOptions }}" required/>
+                                                <div class="col-md-3 col-12">
+                                                <br>
+                                                <a href="{{ route('create-funder') }}" class="btn btn-primary"><i class="fa fa-plus-square"></i></a>
+                                                </div>
                                             </div>
                                             <div class="row mt-5">
 
@@ -45,7 +48,7 @@
                                                 <x-input type="text" name="amount" label="a sum of Rupees" required />
                                                 <x-input type="text" name="towards" label="towards" required/>
                                                 <x-input type="text" name="for" label="For" required/>
-                                                <x-input type="select" name="transfer_mode" label="vide" option="Cash|Bank" required/>
+                                                <x-input type="select" name="transfer_mode" label="vide" option="By Cash|Bank Transfer|By Cheque" required/>
                                                 <x-input type="date" name="receipt_date" label="Date" required />
                                                 <x-input type="text" name="receipt_no" label="Receipt No" value="{{ $receiptNumber }}" readonly='readOnly' />
                                                 <div class="col-12 d-flex justify-content-start">
@@ -83,7 +86,7 @@
         type: 'POST',  // Use 'type' instead of 'method' for specifying the HTTP method
         success: function(data){
             // var json = JSON.parse(data)
-            console.log(data.funder_name);
+            console.log(data.funder_entity);
             $('#id_funder_email').val(data.funder_email);
             $('#funder_id').val(data.id);
             $('#id_funder_pan').val(data.funder_pan);

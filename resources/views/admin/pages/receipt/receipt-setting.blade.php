@@ -21,12 +21,20 @@
                                         <form class="form" action="{{ route('receipt-setting-form') }}" method="POST">
                                         @csrf
                                             <div class="row">
-                                                <x-input type="text" name="prefix" label="Prefix for Receipt" value="{{ $setting->prefix }}" />
-                                                <x-input type="text" name="suffix" label="Suffix for Receipt" value="{{ $setting->suffix}}" />
-                                                <x-input type="number" name="number" label="Number for Receipt" value="{{ $setting->receipt_number}}" />
-                                                <x-input type="text" name="number_format" label="Number format" value="{{ $setting->number_format}} digit" />
-                                                <x-input type="select"  name="receipt_format" required label="Receipt Format" option="Format-1|Format-2|Format-3" />
+                                                <x-input type="text" name="prefix" label="Prefix for Receipt" value="{{ ($setting!=null)?$setting->prefix:''}}" />
+                                                <x-input type="text" name="suffix" label="Suffix for Receipt" value="{{ ($setting!=null)?$setting->suffix:''}}" />
+                                                <x-input type="number" name="number" label="Number for Receipt" value="{{ ($setting!=null)?$setting->receipt_number:''}}" required />
+                                                <x-input type="text" name="number_format" label="Number format" value="{{ ($setting!=null)?$setting->number_format:''}} digit" required />
+                                                <div class="col-md-6 col-12">
+                                                    <div class="form-group">
+                                                    <label for="">Receipt Footer <span class="text-danger">*</span></label>
+                                                        <textarea name="footer" class="form-control" cols="30" rows="5">{{ ($setting!=null)?$setting->footer:''}}</textarea>
+                                                    </div>
+                                                </div>
+                                                <x-input type="select"  name="receipt_format" required label="Receipt Format" value="Format-{{ ($setting!=null)?$setting->receipt_format:'' }}" option="Format-1|Format-2|Format-3" />
+
                                                 <div class="col-md-3 col-12">
+                                                   @if ((($setting!=null)?$setting->receipt_format:null)!=null) <a target="_blank" href="{{ route('pdf-preview', ['format' => ($setting!=null)?$setting->receipt_format:'']) }}" class="btn btn-warning mt-4 pdf" data-format="Format-1">Format-{{ $setting->receipt_format }}</a> @endif
                                                     <a target="_blank" href="{{ route('pdf-preview', ['format' => 1]) }}" class="btn btn-warning mt-4 pdf-button" data-format="Format-1">Format-1</a>
                                                     <a target="_blank" href="{{ route('pdf-preview', ['format' => 2]) }}" class="btn btn-warning mt-4 pdf-button" data-format="Format-2">Format-2</a>
                                                     <a target="_blank" href="{{ route('pdf-preview', ['format' => 3]) }}" class="btn btn-warning mt-4 pdf-button" data-format="Format-3">Format-3</a>
@@ -52,6 +60,7 @@ $('#id_receipt_format').change(function(){
 
     // Hide all PDF buttons
     $('.pdf-button').hide();
+    $('.pdf').hide();
 
     // Show the PDF button for the selected format
     $('.pdf-button[data-format="' + format + '"]').show();

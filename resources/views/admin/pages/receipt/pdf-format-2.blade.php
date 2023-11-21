@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,7 +21,6 @@
     .float-left{
         float: left;
     }
-
     *{
         font-family: sans-serif;
     }
@@ -62,31 +59,31 @@
 
     <table style="margin-top: 5%">
 
-        <tr><td colspan="4" class="fCenter" ><b>BHARAT THAKUR TAPASYA VISION TRUST</b></td></tr>
-        <tr><td colspan="4" class="fCenter f13"  ><b> Reg. Trust No. DIE(E)/12A/VOL.I/B-732/W-1/03/04</b></td></tr>
-        <tr><td colspan="4" class="fCenter f13" style="padding-bottom: 20px" > C3/1, Vijay Kiran Apartments, No. 32, Victoria Road, Bengaluru-560047</td></tr>
+        <tr><td colspan="4" class="fCenter" ><b>{{ session('company')->company_name }}</b></td></tr>
+        <tr><td colspan="4" class="fCenter f13"  ><b> Reg. Trust No. {{ session('company')->com_reg_no }}</b></td></tr>
+        <tr><td colspan="4" class="fCenter f13" style="padding-bottom: 20px" >{{ session('company')->city }} {{ session('company')->state }} {{ session('company')->country }} {{ session('company')->pincode }}</td></tr>
         <tr>
             <td colspan="2"></td>
             <td colspan="2">
-                <div class=" f13 fRight" >Receipt No.: <b>2023-24/0180</b></div>
-                <div  class=" f13 fRight" >Location: <b>Noida</b></div>
+                <div class=" f13 fRight" >Receipt No.: <b>{{ $receipt->receipt_no }}</b></div>
+                <div  class=" f13 fRight" >Location: <b>{{ session('company')->city }}</b></div>
             </td>
         </tr>
         <tr>
             <td class="f13">Donated by :</td>
-            <td colspan="3" class="dashed f13" >Shweta Sood</td>
+            <td colspan="3" class="dashed f13" >{{ $funder->funder_name }}</td>
         </tr>
         <tr>
             <td class="f13">Address :</td>
-            <td colspan="3" class="dashed f13" > Q-139 Gurugram Harayana</td>
+            <td colspan="3" class="dashed f13" > {{ "$funder->funder_address1 $funder->funder_address2 $funder->funder_city $funder->funder_state $funder->funder_country $funder->funder_pin" }}</td>
         </tr>
         <tr>
             <td class="f13">Date of donation :</td>
-            <td colspan="3" class="dashed f13" >02-11-2023</td>
+            <td colspan="3" class="dashed f13" >{{ $receipt->receipt_date }}</td>
         </tr>
         <tr>
             <td class="f13">Donated vai :</td>
-            <td colspan="3" class="dashed f13" >Bank Transfer</td>
+            <td colspan="3" class="dashed f13" >{{ $receipt->transfer_mode }}</td>
 
         </tr>
          <tr>
@@ -98,18 +95,13 @@
             <td colspan="3" class="fRight f13" ><b>Authorized signature: </b></td>
             <td class="dashed f13"></td>
         </tr>
-        <tr>
+        {{-- <tr>
         <td colspan="4" class="fRight f13 pt-10">Chartered Accountant</td>
-        </tr>
+        </tr> --}}
         <tr>
-            <td class="f13" style="padding-top:40px" colspan="4">Donations made to the trust are deductible under section, 80G of I.T. Act 196, Vide Order No. CIT(E)</td>
+            <td class="f13" style="padding-top:40px" colspan="4">{{ $setting->footer }}</td>
         </tr>
-        <tr>
-            <td class="f13"  colspan="4">BLR/J-463/AAATB7679Q/ITO(E)-1/Vol 2014-2015 dated 5th May 2015, Vilid from 5th May 2015 </td>
-        </tr>
-        <tr>
-            <td class="f13" colspan="4">Onwards PAN : AAATB7679Q</td>
-        </tr>
+
 
     </table>
 </div>

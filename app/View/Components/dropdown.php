@@ -14,10 +14,12 @@ class dropdown extends Component
      public $label;
      public $options;
      public $name;
-    public function __construct($label,$option,$name)
+     public $required;
+    public function __construct($label,$option,$name,$required)
     {
         $this->label= $label;
         $this->name= $name;
+        $this->required= $required;
        $this->options = explode(':', $option);
     }
 

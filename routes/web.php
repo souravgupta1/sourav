@@ -48,17 +48,19 @@ Route::controller(CompanyController::class)->prefix('/admin')->group(function(){
         Route::get('/create-receipt-list', 'ReceiptListView')->name('receipt-list');
         Route::get('/create-receipt-setting', 'ReceiptSettingView')->name('receipt-setting');
         Route::post('/receipt-setting', 'ReceiptSettingForm')->name('receipt-setting-form');
-        Route::get('PDF-preview/{format}','PDF_generator')->name('pdf-preview');
+        Route::get('PDF-preview/{format}/{receipt_id?}','PDF_generator')->name('pdf-preview');
         Route::post('/get-funder','getFunder')->name('get-funder');
-        Route::get('/mail-setting','MailPage')->name('mail-setting');
-        Route::post('sendMail','sendMail')->name('Mail-send');
+        Route::get('/mail-setting/{funder?}/{receipt?}','MailPage')->name('mail-setting');
+        Route::post('/sendMail','sendMail')->name('Mail-send');
         Route::get('receipt-delete/{id}','deleteRow')->name('receipt-delete');
+        Route::get('/alert','alert');
 
      });
 });
 Route::controller(UserController::class)->prefix('/admin')->group(function(){
     Route::middleware('guardAdmin')->group(function(){
         Route::get('create-user','userFormView')->name('create-user');
+        Route::get('users-list','userListView')->name('users-list');
         Route::post('insertNewUser','createUser')->name('new-user');
     });
 

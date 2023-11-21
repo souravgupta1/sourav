@@ -12,6 +12,7 @@ use Illuminate\Support\Str;
 use App\Mail\userMailVerification;
 use App\Models\CompanyModel;
 use App\Models\MailSetting;
+use App\Models\User;
 use Illuminate\Support\Facades\Mail;
 
 
@@ -40,22 +41,32 @@ class AuthController extends Controller
 
     function adminRegistration(Request $request){
 
-        $request->validate([
-        'name' => 'required',
-        'email' => 'required|email|unique:admin_login,email',
-        'password' => 'required|min:8|confirmed',
-        'password_confirmation' => 'required'
-    ]);
+            $request->validate([
+            'name' => 'required',
+            'email' => 'required|email|unique:admin_login,email',
+            'password' => 'required|min:8|confirmed',
+            'password_confirmation' => 'required'
+        ]);
         $admin = new AdminModel();
+
         $admin->name = $request->name;
         $admin->email = $request->email;
         $admin->password = Hash::make($request->password);
         if($admin->save()){
-            $lastAdminInserted  = AdminModel::latest()->first();
+                $user = new User();
+                $user->admin_id = $admin->id;
+                $user->pages = 'All';
+                $user->action = 'All';
+                $user->created_by = $admin->id;
+                if(!$user->save()){
+                    return redirect()->route('register')->with('error','Something went worng with.');
+                }
             $mail = new MailSetting();
-            $mail->user_id = $lastAdminInserted->id;
+            $mail->user_id = $admin->id;
+
             if($mail->save()){
                 if($this->sendMail($admin)){
+
                     return redirect()->route('login')->with('message','Verification is Pending Please check your Mail');
                 }else{
                     return redirect()->route('register')->with('error','Mail Not Send');
@@ -74,8 +85,9 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
         $admin = AdminModel::where('email',$request->email)->first();
-        $company = CompanyModel::where('user_id',$admin->id)->first();
+
         if ($admin){
+            $company = CompanyModel::where('user_id',$admin->id)->first();
             if(Hash::check($request->password, $admin->password)){
                 if (!$admin->Is_verify) {
                     return redirect()->back()->withInput()->with('error','Email is not verified');
@@ -106,9 +118,14 @@ class AuthController extends Controller
 
     function verifyUser($id){
         $user = AdminModel::find($id);
-        $user->Is_verify =1;
-        if($user->save()){
-            return redirect()->route('login')->with('message', 'Email Verified');
+        if($user){
+            $user->Is_verify =1;
+            if($user->save()){
+                return redirect()->route('login')->with('message', 'Email Verified');
+            }
+        }else{
+            return redirect()->route('login')->with('message', 'Link Expire Please check for New Mail');
         }
+
     }
 }

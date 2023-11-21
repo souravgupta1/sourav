@@ -1,6 +1,8 @@
+
 @if ($type=="select")
+
  <div class="col-md-3 col-12">
- <label for="{{ $label }}-column">{{ $label }}
+ <label for="id_{{ $name }}">{{ $label }}
     @if (!empty($required)) <span class='text-danger'>*</span> @endif
 </label>
    <select
@@ -11,7 +13,7 @@
    class="form-control {{ $class }}"
    @if (!empty($style)) style="{{ $value }}" @endif
    >
-   <option value=""> None Selected </option>
+   <option value=@if (!empty($value)) {{ $value }} @endif> None Selected </option>
         @foreach ($options as $option)
                 @php
                   $array =  explode(':',$option);
@@ -22,11 +24,11 @@
    </select>
 </div>
 @else
-
  <div class="col-md-3 col-12">
     <div class="form-group">
-        <label for="{{ $label }}-column">{{ $label }}
+        <label for="id_{{ $name }}">{{ $label }}
             @if (!empty($required)) <span class='text-danger'>*</span> @endif
+
         </label>
         <input
         type="{{ $type }}"
@@ -37,6 +39,7 @@
         @if (!empty($style)) style="{{ $value }}" @endif
         @if (!empty($required)) {{ "required" }} @endif
         {{ $readonly }}
+        @if ($type=='file')accept="image/*,application/pdf"@endif
          >
 
     </div>

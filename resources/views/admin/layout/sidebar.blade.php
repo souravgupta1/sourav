@@ -16,14 +16,16 @@
                 <div class="sidebar-menu">
                     <ul class="menu">
                         <li class="sidebar-title">Menu</li>
-
+                        @if (check_admin('Dashboard'))
                         <li class="sidebar-item @if($route == 'dashboard') active @endif ">
                             <a href="{{ route('dashboard') }}" class='sidebar-link'>
                                 <i class="bi bi-grid-fill"></i>
                                 <span>Dashboard</span>
                             </a>
                         </li>
+                        @endif
 
+                        @if (check_admin('Receipt Form'))
                         <li class="sidebar-item  has-sub @if($route == 'create-receipt') active @endif">
                             <a href="#" class='sidebar-link'>
                                 <i class="bi bi-stack"></i>
@@ -44,7 +46,9 @@
 
                             </ul>
                         </li>
+                        @endif
 
+                        @if (check_admin('Company Form'))
                         <li class="sidebar-item  has-sub @if($route == 'create-company') active @endif">
                             <a href="#" class='sidebar-link'>
                                 <i class="bi bi-collection-fill"></i>
@@ -57,18 +61,27 @@
 
                             </ul>
                         </li>
+                        @endif
+
+                        @if (check_admin('User Form'))
                         <li class="sidebar-item  has-sub @if($route == 'create-user') active @endif">
                             <a href="#" class='sidebar-link'>
                                 <i class="bi bi-collection-fill"></i>
                                 <span>User</span>
                             </a>
-                            <ul class="submenu @if($route == 'create-user') active @endif">
+                            <ul class="submenu @if($route == 'create-user' || $route == 'users-list') active @endif">
                                 <li class="submenu-item  @if($route == 'create-user') active @endif">
                                     <a href="{{ route('create-user') }}">Add User</a>
+                                </li>
+                                <li class="submenu-item  @if($route == 'users-list') active @endif">
+                                    <a href="{{ route('users-list') }}">User List</a>
                                 </li>
 
                             </ul>
                         </li>
+                        @endif
+
+                        @if (check_admin('Funder Form'))
                         <li class="sidebar-item  has-sub @if($route == 'create-funder') active @endif">
                             <a href="#" class='sidebar-link'>
                                 <i class="bi bi-collection-fill"></i>
@@ -84,10 +97,9 @@
 
                             </ul>
                         </li>
+                        @endif
 
-
-
-
+                        @if (check_admin('Mail'))
                         <li class="sidebar-title">Mail &amp; Setting</li>
 
                         <li class="sidebar-item  has-sub @if($route == 'compose-mail' || $route == 'mail-setting') active @endif">
@@ -101,6 +113,7 @@
                                 </li>
                             </ul>
                         </li>
+                        @endif
 
 
 
