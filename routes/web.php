@@ -59,9 +59,11 @@ Route::controller(CompanyController::class)->prefix('/admin')->group(function(){
 });
 Route::controller(UserController::class)->prefix('/admin')->group(function(){
     Route::middleware('guardAdmin')->group(function(){
-        Route::get('create-user','userFormView')->name('create-user');
-        Route::get('users-list','userListView')->name('users-list');
-        Route::post('insertNewUser','createUser')->name('new-user');
+        Route::get('/create-user/{id?}','userFormView')->name('create-user');
+        Route::get('/users-list','userListView')->name('users-list');
+        Route::post('/insertNewUser','createUser')->name('new-user');
+        Route::post('/updateNewUser','updateUser')->name('update-user');
+        // Route::get('/test',function(){});
     });
 
 });

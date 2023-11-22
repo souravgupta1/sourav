@@ -27,7 +27,7 @@
                                                 <x-input type="select" name="funder_id"  class="choices form-select"  label="Received with thanks From" option="{{ $funderOptions }}" required/>
                                                 <div class="col-md-3 col-12">
                                                 <br>
-                                                <a href="{{ route('create-funder') }}" class="btn btn-primary"><i class="fa fa-plus-square"></i></a>
+                                                <a href="{{ route('create-funder') }}" class="btn btn-primary"><i class="fa fa-plus"></i></a>
                                                 </div>
                                             </div>
                                             <div class="row mt-5">

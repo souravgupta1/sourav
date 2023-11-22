@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/app.css') }}">
     <link rel="shortcut icon" href="{{ asset('assets/images/favicon.svg" type="image/x-icon') }}">
     <link rel="stylesheet" href="{{ asset('assets/vendors/sweetalert2/sweetalert2.min.css') }}">
-
+<script src="https://kit.fontawesome.com/37284525fc.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -43,7 +43,6 @@
     <script src="{{ asset('assets/js/main.js') }}"></script>
     <script src="{{ asset('assets/vendors/tinymce/tinymce.min.js') }}"></script>
     <script src="{{ asset('assets/vendors/tinymce/plugins/code/plugin.min.js') }}"></script>
-    {{-- <script src="{{ asset('assets/js/extensions/sweetalert2.js') }}"></script> --}}
     <script src="{{ asset('assets/vendors/sweetalert2/sweetalert2.all.min.js') }}"></script>
 
     <script>

@@ -46,8 +46,9 @@
                                                     <td class="text-bold-500">{!! str_replace('|','<br>',$item->pages) !!}</td>
                                                     <td class="text-bold-500">{{ $item->created_at }}</td>
                                                     <td class="text-bold-500">{{ getAdminNameById($item->created_by) }}</td>
-                                                    <td class="text-bold-500"><a class="btn btn-warning" href="#"><i class="fa fa-pencil"></i></a></td>
-                                                    <td class="text-bold-500"><a class="btn btn-danger" href="#"><span class="fa fa-trash"></span></a></td>
+                                                    <td class="text-bold-500">@if ($item->admin_id!=$item->created_by)<a class="btn btn-warning" href="{{ route("create-user")."/$item->user_table_id" }}"><i class="fa fa-pencil"></i></a>@else-@endif</td>
+                                                    <td class="text-bold-500">@if ($item->admin_id!=$item->created_by)<a class="btn btn-danger" href="#"><span class="fa fa-trash"></span></a>  @else-@endif</td>
+
                                                 </tr>
                                                  @endforeach
                                             </tbody>

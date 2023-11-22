@@ -13,12 +13,15 @@
    class="form-control {{ $class }}"
    @if (!empty($style)) style="{{ $value }}" @endif
    >
-   <option value=@if (!empty($value)) {{ $value }} @endif> None Selected </option>
+   <option value={{ !empty($value)?$value:"" }}> {{ !empty($value)?$value:"None Selected" }} </option>
         @foreach ($options as $option)
                 @php
                   $array =  explode(':',$option);
                   $array[1] = !empty($array[1])?$array[1]:$array[0];
                 @endphp
+                @if ($array[0]==$value)
+                    @continue
+                @endif
             <option value="{{ $array[0] }}">{{ $array[1] }}</option>
         @endforeach
    </select>

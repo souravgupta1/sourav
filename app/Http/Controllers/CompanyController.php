@@ -117,8 +117,8 @@ class CompanyController extends Controller
         if($request->file('fcra_file')){
             $company->fcra_file = $request->file('fcra_file')->store('company/'.$request->company_name.'/FCRA','public');
         }
-        if($request->file('csr_num')){
-            $company->csr_num = $request->file('csr_num')->store('company/'.$request->company_name.'/CSR','public');
+        if($request->file('csr_file')){
+            $company->csr_file = $request->file('csr_file')->store('company/'.$request->company_name.'/CSR','public');
         }
         if($request->file('gstin_file')){
             $company->gstin_file = $request->file('gstin_file')->store('company/'.$request->company_name.'/GSTIN','public');
@@ -145,7 +145,6 @@ class CompanyController extends Controller
         $company->fcra_date = $request->fcra_date;
         $company->csr_num = $request->csr_num;
         $company->gstin_num = $request->gstin_num;
-        $company->gstin_file = 'NA';
         $company->updated_at = date('Y-m-d');
         $company->updated_by = session('admin')->id;
 

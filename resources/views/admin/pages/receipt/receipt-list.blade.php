@@ -6,7 +6,7 @@
 @endphp
 @extends('admin.layout.master')
 @section('content-section')
-<script src="https://kit.fontawesome.com/37284525fc.js" crossorigin="anonymous"></script>
+
     <section id="multiple-column-form">
                     <div class="row match-height">
                         <div class="col-12">

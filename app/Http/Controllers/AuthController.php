@@ -56,7 +56,6 @@ class AuthController extends Controller
                 $user = new User();
                 $user->admin_id = $admin->id;
                 $user->pages = 'All';
-                $user->action = 'All';
                 $user->created_by = $admin->id;
                 if(!$user->save()){
                     return redirect()->route('register')->with('error','Something went worng with.');

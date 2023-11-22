@@ -30,7 +30,7 @@
                                                 <x-input type="file" name="logo" label="Company Logo" />
                                                 <div class="col-md-3 col-12">
                                                 <div class="form-group"><br>
-                                                        <img src="{{ ($company)?asset('storage/'.$company->logo):'#'  }}" alt="Logo" class="form-control" style="width: 50%;height: 37px;">
+                                                        <img src="{{ ($company)?asset('storage/'.$company->logo):'#'  }}" alt="Logo" class="form-control" style="width: 20%;position: absolute;max-width: 24%;max-height: 10%;">
                                                 </div></div>
                                                 <x-input type="number" name="mobile" label="Mobile number" value="{{ ($company)?$company->mobile:'' }}" />
 
@@ -43,7 +43,7 @@
                                                 <x-input type="number" name="pincode" label="Pincode" value="{{ ($company)?$company->pincode:'' }}" />
 
                                                  <div class="card-header"><h4 class="card-title">Registration Info</h4></div>
-                                                <x-input type="select" name="com_reg_type" label="Registration Type" option="trust|Socity|Individual" />
+                                                <x-input type="select" name="com_reg_type" label="Registration Type" option="trust|Socity|Individual" value="{{ ($company)?$company->com_reg_type:'' }}" />
                                                 <x-input type="text" name="com_reg_no" label="Registration No" value="{{ ($company)?$company->com_reg_no:'' }}" />
                                                 <x-input type="date" name="com_reg_expiry_date" label="Expiry Date" value="{{ ($company)?$company->com_reg_expiry_date:'' }}"  />
                                                 <x-input type="date" name="com_reg_date" label="Registration Date" value="{{ ($company)?$company->com_reg_date:'' }}"  />
